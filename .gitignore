@@ -1,3 +1,5 @@
+.DS_Store
+
 # Client ignore
 # Node.js dependencies
 /client/node_modules
@@ -45,4 +47,9 @@
 # ignore go dependencies
 /api/data/
 /api/tmp/
+
+# Database files
+*.dblwr
+binlog.*
+auto.cnf
 

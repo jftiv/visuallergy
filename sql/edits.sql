@@ -1,0 +1,2 @@
+-- For now just going to ignore this until I get v1 of the tables set up, 
+-- will set this up as a migration script later
