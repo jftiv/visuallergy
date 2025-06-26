@@ -1,0 +1,48 @@
+# Client ignore
+# Node.js dependencies
+/client/node_modules
+/client/node_modules/**
+
+# Build artifacts
+/client/dist
+/client/tmp
+/client/out-tsc
+
+# Logs
+/client/logs/
+*.log
+/client/npm-debug.log*
+/client/yarn-debug.log*
+/client/yarn-error.log*
+
+# Environment variables
+/client/.env*
+
+# IDE/Editor specific files
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Test coverage
+/client/coverage/
+/client/.nyc_output/
+
+# Caches
+/client/.npm/
+/client/.eslintcache
+/client/.sass-cache/
+
+# api ignore
+# ignore go dependencies
+/api/data/
+/api/tmp/
+
