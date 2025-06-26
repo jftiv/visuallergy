@@ -5,15 +5,15 @@ import type { GetInfo, GetAnnotations } from "react-router/internal";
 type Module = typeof import("../Meal.js")
 
 type Info = GetInfo<{
-  file: "./components/Meal.jsx",
+  file: "./components/add-meal/Meal.jsx",
   module: Module
 }>
 
 type Matches = [{
   id: "root";
-  module: typeof import("../../root.js");
+  module: typeof import("../../../root.js");
 }, {
-  id: "components/Meal";
+  id: "components/add-meal/Meal";
   module: typeof import("../Meal.js");
 }];
 

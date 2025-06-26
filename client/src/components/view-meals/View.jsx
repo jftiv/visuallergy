@@ -1,4 +1,4 @@
-import useMeals from "../hooks/useMeals";
+import useMeals from "../../hooks/useMeals";
 
 const View = () => {
   const { meals, isLoading, error } = useMeals('testuser'); // Replace 'testuser' with actual username

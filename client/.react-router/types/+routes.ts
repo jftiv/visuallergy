@@ -19,6 +19,9 @@ type Pages = {
   "/meals/view": {
     params: {};
   };
+  "/register": {
+    params: {};
+  };
   "/*": {
     params: {
       "*": string;
@@ -29,15 +32,19 @@ type Pages = {
 type RouteFiles = {
   "root.jsx": {
     id: "root";
-    page: "/" | "/meals/add" | "/meals/view" | "/*";
+    page: "/" | "/meals/add" | "/meals/view" | "/register" | "/*";
   };
-  "./components/Meal.jsx": {
-    id: "components/Meal";
+  "./components/add-meal/Meal.jsx": {
+    id: "components/add-meal/Meal";
     page: "/meals/add";
   };
-  "./components/View.jsx": {
-    id: "components/View";
+  "./components/view-meals/View.jsx": {
+    id: "components/view-meals/View";
     page: "/meals/view";
+  };
+  "./components/register/Register.jsx": {
+    id: "components/register/Register";
+    page: "/register";
   };
   "catchall.jsx": {
     id: "catchall";

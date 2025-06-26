@@ -44,6 +44,7 @@ const Meal = () => {
     .then(response => {
       if (!response.ok) {
         setSubmitError('Failed to submit meal data');
+        return;
       }
       setSubmitSuccess(true);
       return response.json();
