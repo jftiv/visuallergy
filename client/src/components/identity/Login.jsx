@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link, redirect } from 'react-router';
+import { Link } from 'react-router';
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -17,7 +17,6 @@ const Login = () => {
       sessionStorage.setItem('username', body['username']);
       sessionStorage.setItem('userId', body['userId']);
       // convert to route action
-      redirect("/meals");
     }
   }
 

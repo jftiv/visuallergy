@@ -1,7 +1,5 @@
-import { Navigate } from 'react-router';
-
 const CatchAllComponent = () => {
-  return <Navigate to="/login" replace />
+  return <div>You're not supposed to be here yet!</div>
 }
 
 export default CatchAllComponent;
