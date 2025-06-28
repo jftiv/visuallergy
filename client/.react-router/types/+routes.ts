@@ -13,10 +13,13 @@ type Pages = {
   "/": {
     params: {};
   };
+  "/meals": {
+    params: {};
+  };
   "/meals/add": {
     params: {};
   };
-  "/meals/view": {
+  "/login": {
     params: {};
   };
   "/register": {
@@ -32,21 +35,25 @@ type Pages = {
 type RouteFiles = {
   "root.jsx": {
     id: "root";
-    page: "/" | "/meals/add" | "/meals/view" | "/register" | "/*";
+    page: "/" | "/meals" | "/meals/add" | "/login" | "/register" | "/*";
+  };
+  "./components/view-meals/View.jsx": {
+    id: "components/view-meals/View";
+    page: "/meals" | "/meals/add";
   };
   "./components/add-meal/Meal.jsx": {
     id: "components/add-meal/Meal";
     page: "/meals/add";
   };
-  "./components/view-meals/View.jsx": {
-    id: "components/view-meals/View";
-    page: "/meals/view";
+  "./components/identity/Login.jsx": {
+    id: "components/identity/Login";
+    page: "/login";
   };
-  "./components/register/Register.jsx": {
-    id: "components/register/Register";
+  "./components/identity/Register.jsx": {
+    id: "components/identity/Register";
     page: "/register";
   };
-  "catchall.jsx": {
+  "./catchall.jsx": {
     id: "catchall";
     page: "/" | "/*";
   };

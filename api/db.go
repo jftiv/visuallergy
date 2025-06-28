@@ -215,6 +215,7 @@ func insertMeal(userId int, meal FullMeal) error {
 func createUser(user UserEntity) (int, error) {
 	tx := db.MustBegin()
 	query := "INSERT INTO users (username, email, password) VALUES (:username, :email, :hashedPassword)"
+	//TODO: handle scenario email/userId already exists
 	result, err := tx.NamedExec(query, map[string]interface{}{
 		"username":       user.Username,
 		"email":          user.Email,
