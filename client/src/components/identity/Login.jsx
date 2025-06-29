@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
-const Login = () => {
+export const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmitLogin = async (data) => {
@@ -49,5 +49,3 @@ const Login = () => {
     </form>
   )
 }
-
-export default Login;

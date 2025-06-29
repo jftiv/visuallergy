@@ -1,6 +1,6 @@
 import useMeals from "../../hooks/useMeals";
 
-const View = () => {
+export const ViewMeals = () => {
   const { meals, isLoading, error } = useMeals('testuser'); // Replace 'testuser' with actual username
 
   if (isLoading) return <div>Loading...</div>;
@@ -34,5 +34,3 @@ const View = () => {
     </div>
   )
 }
-
-export default View;

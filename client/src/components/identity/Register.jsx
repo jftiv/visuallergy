@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form"
 
-const Register = () => {
+export const Register = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [ registerSuccess, setRegisterSuccess ] = useState(false);
   const [ registerError, setRegisterError ] = useState(false);
@@ -58,5 +58,3 @@ const Register = () => {
     </form>
   )
 }
-
-export default Register;

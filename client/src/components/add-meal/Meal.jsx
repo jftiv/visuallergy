@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import Item from "./Item"
+import { Item } from "./Item.jsx"
 
-const Meal = () => {
+export const Meal = () => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const [ itemCount, setItemCount ] = useState(1);
   const [ submitSuccess, setSubmitSuccess ] = useState(false);
@@ -102,5 +102,3 @@ const Meal = () => {
     </>
   )
 }
-
-export default Meal;

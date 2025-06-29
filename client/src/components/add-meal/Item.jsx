@@ -1,4 +1,4 @@
-const Item = ({index, register, errors}) => {
+export const Item = ({index, register, errors}) => {
   return (
     <>
         <div>
@@ -39,5 +39,3 @@ const Item = ({index, register, errors}) => {
     </>
   );
 }
-
-export default Item;
