@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form"
+import { Input, Button, StyledLink } from "../../components";
+import "./Identity.css";
 
 export const Register = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -26,35 +28,93 @@ export const Register = () => {
 
   if (registerError) {
     return (
-      <div>
-        Error registering user.
+      <div className="identity-container">
+        <div className="identity-error-card">
+          <h2 className="identity-error-title">Registration Error</h2>
+          <p>Error registering user. Please try again.</p>
+          <Button 
+            onClick={() => setRegisterError(false)} 
+            variant="outline" 
+            className="mt-4"
+          >
+            Try Again
+          </Button>
+        </div>
       </div>
     )
   };
 
   if (registerSuccess) {
     return (
-      <div>
-        Registration was successful. Please continue to login!
+      <div className="identity-container">
+        <div className="identity-success-card">
+          <h2 className="identity-success-title">Registration Successful!</h2>
+          <p className="identity-success-message">Your account has been created successfully.</p>
+          <StyledLink to="/login" variant="button">
+            Continue to Login
+          </StyledLink>
+        </div>
       </div>
     )
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmitRegisterUser)}>
-      <div>
-        <label>Email</label>
-      </div>
-      <input type="email" name="email" placeholder="E-mail" {...register("email")}></input>
-      <div>
-        <label>Username</label>
-      </div>
-      <input type="text" name="username" placeholder="Username" {...register("username")}></input>
-      <div>
-        <label>Password</label>
-      </div>
-      <input type="password" name="password" placeholder="Password" {...register("password")}></input>
-      <button type="submit">Submit</button>
-    </form>
+    <div className="identity-container">
+      <form 
+        onSubmit={handleSubmit(onSubmitRegisterUser)}
+        className="identity-form"
+      >
+        <h2 className="identity-form-title">
+          Create Account
+        </h2>
+        
+        <div className="identity-form-group">
+          <label className="identity-label">
+            Email
+          </label>
+          <Input 
+            type="email" 
+            name="email" 
+            placeholder="Enter your email" 
+            {...register("email")}
+          />
+        </div>
+        
+        <div className="identity-form-group">
+          <label className="identity-label">
+            Username
+          </label>
+          <Input 
+            type="text" 
+            name="username" 
+            placeholder="Choose a username" 
+            {...register("username")}
+          />
+        </div>
+        
+        <div className="identity-form-group-large">
+          <label className="identity-label">
+            Password
+          </label>
+          <Input 
+            type="password" 
+            name="password" 
+            placeholder="Create a password" 
+            {...register("password")}
+          />
+        </div>
+        
+        <Button type="submit" className="w-full mb-4">
+          Create Account
+        </Button>
+        
+        <p className="identity-centered-text">
+          Already have an account?{' '}
+          <StyledLink to="/login">
+            Sign in here
+          </StyledLink>
+        </p>
+      </form>
+    </div>
   )
 }

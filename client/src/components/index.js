@@ -1,3 +1,8 @@
+// UI Components
+export * from "./ui/input.jsx";
+export * from "./ui/button.jsx";
+export * from "./ui/link.jsx";
+
 // Lander Components
 export * from "./lander/Home.jsx";
 
@@ -10,5 +15,3 @@ export * from "./identity/IsLoggedIn.jsx";
 export * from "./view-meals/View.jsx";
 export * from "./add-meal/Meal.jsx";
 export * from "./add-meal/Item.jsx";
-
-
