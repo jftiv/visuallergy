@@ -1,5 +1,7 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form"
+import { useAuth } from "../../contexts/AuthContext.jsx"
+import { MealsNav } from "../navigation/MealsNav.jsx"
 import { Item } from "./Item.jsx"
 
 export const Meal = () => {
@@ -7,6 +9,7 @@ export const Meal = () => {
   const [ itemCount, setItemCount ] = useState(1);
   const [ submitSuccess, setSubmitSuccess ] = useState(false);
   const [ submitError, setSubmitError ] = useState(null);
+  const { user } = useAuth();
 
   const handleItemCountChange = (e, operation) => {
     e.preventDefault()
@@ -37,7 +40,7 @@ export const Meal = () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Username': 'testuser', // Replace with actual username
+        'X-Username': user?.username || 'testuser', // Use actual username from context
       },
       body: JSON.stringify(request),
     })
@@ -68,37 +71,75 @@ export const Meal = () => {
   }
 
   if (submitError) {
-    return <div>Error: {submitError}</div>;
+    return (
+      <div className="max-w-7xl mx-auto p-4">
+        <MealsNav />
+        <div className="max-w-md mx-auto text-center space-y-4">
+          <div className="text-destructive">Error: {submitError}</div>
+        </div>
+      </div>
+    );
   }
 
   if (submitSuccess) {
     return (
-      <div>
-        <div>Meal submitted successfully!</div>
-        <button onClick={handleResetForm}>Reset Form</button>
+      <div className="max-w-7xl mx-auto p-4">
+        <MealsNav />
+        <div className="max-w-md mx-auto text-center space-y-4">
+          <div className="text-green-600">Meal submitted successfully!</div>
+          <button 
+            onClick={handleResetForm}
+            className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+          >
+            Reset Form
+          </button>
+        </div>
       </div>
     );
   }
   
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {Array.from({ length: itemCount }, (_, index) => (
-            <Item index={index} register={register} errors={errors} />
-        ))}
-
-        <div>
-          <label htmlFor="atHome">At Home</label>
-          <input type="checkbox" id="atHome" {...register("at_home")} />
+    <div className="max-w-7xl mx-auto p-4">
+      <MealsNav />
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {Array.from({ length: itemCount }, (_, index) => (
+            <div key={index} className="max-w-[320px] w-full">
+              <Item index={index} register={register} errors={errors} />
+            </div>
+          ))}
         </div>
 
-        <button onClick={e => handleItemCountChange(e, 'add')}>Add Item</button>
-        <button onClick={e => handleItemCountChange(e, 'remove')}>Remove Item</button>
-        <div>
-          <button type="submit">Submit</button>
+        <div className="flex flex-col items-start space-y-4 max-w-[320px]">
+          <div className="flex items-center space-x-2">
+            <input type="checkbox" id="atHome" {...register("at_home")} className="h-4 w-4 rounded border border-primary text-primary focus:ring-2 focus:ring-ring focus:ring-offset-2" />
+            <label htmlFor="atHome" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              At Home
+            </label>
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            <button 
+              onClick={e => handleItemCountChange(e, 'add')}
+              className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+            >
+              Add Item
+            </button>
+            <button 
+              onClick={e => handleItemCountChange(e, 'remove')}
+              className="px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 transition-colors"
+            >
+              Remove Item
+            </button>
+            <button 
+              type="submit"
+              className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+            >
+              Submit
+            </button>
+          </div>
         </div>
       </form>
-
-    </>
+    </div>
   )
 }

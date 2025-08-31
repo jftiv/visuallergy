@@ -1,4 +1,4 @@
-import * as React from "react"
+import { forwardRef } from "react"
 import { cva } from "class-variance-authority"
 import { cn } from "../../lib/utils"
 
@@ -31,7 +31,7 @@ const buttonVariants = cva(
   }
 )
 
-const Button = React.forwardRef(({ className, variant, size, type = "button", ...props }, ref) => {
+const Button = forwardRef(({ className, variant, size, type = "button", ...props }, ref) => {
   return (
     <button
       type={type}

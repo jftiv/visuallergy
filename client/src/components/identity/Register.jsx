@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form"
-import { Input, Button, StyledLink } from "../../components";
+import { Input, Button, StyledLink, BodyCenter } from "../../components";
 import "./Identity.css";
 
 export const Register = () => {
@@ -59,7 +59,7 @@ export const Register = () => {
   }
 
   return (
-    <div className="identity-container">
+    <BodyCenter className="identity-container">
       <form 
         onSubmit={handleSubmit(onSubmitRegisterUser)}
         className="identity-form"
@@ -115,6 +115,6 @@ export const Register = () => {
           </StyledLink>
         </p>
       </form>
-    </div>
+    </BodyCenter>
   )
 }

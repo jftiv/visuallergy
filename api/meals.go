@@ -43,7 +43,7 @@ func getMeals(w http.ResponseWriter, r *http.Request) {
 	}
 
 	meals, err := queryMeals(userId, queryFilters)
-	checkAndHandleError(err, w, fmt.Sprintf("Failed to query meals: %s", err), http.StatusInternalServerError)
+	checkAndHandleError(err, w, fmt.Sprintf("Failed to query meals: %s", err), http.StatusNotFound)
 
 	fullMeals := convertToResponse(meals)
 

@@ -1,11 +1,13 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { Input, Button, StyledLink } from "../../components";
+import { useAuth } from "../../contexts/AuthContext.jsx";
+import { Input, Button, StyledLink, BodyCenter } from "../../components";
 import "./Identity.css";
 
 export const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const onSubmitLogin = async (data) => {
     const response = await fetch('http://localhost:3001/auth/login', {
@@ -17,8 +19,11 @@ export const Login = () => {
     })
     if (response.ok) {
       const body = await response.json();
-      sessionStorage.setItem('username', body['username']);
-      sessionStorage.setItem('userId', body['userId']);
+      // Use the auth context login method instead of sessionStorage
+      login({
+        username: body['username'],
+        userId: body['userId'],
+      });
       // Redirect to meals page after successful login
       navigate('/meals');
     }
@@ -37,7 +42,7 @@ export const Login = () => {
 
   // Dedicated login form
   return (
-    <div className="identity-container">
+    <BodyCenter className="identity-container">
       <form 
         onSubmit={handleSubmit(onSubmitLogin)}
         className="identity-form"
@@ -63,6 +68,6 @@ export const Login = () => {
           <StyledLink to="/register">Register</StyledLink>
         </p>
       </form>
-    </div>
+    </BodyCenter>
   )
 }
