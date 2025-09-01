@@ -1,14 +1,17 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { useAuth } from "../../contexts/AuthContext.jsx"
-import { MealsNav } from "../navigation/MealsNav.jsx"
-import { Item } from "./Item.jsx"
+import { useAuth } from "../../contexts/AuthContext"
+import { Item, MealsNav } from "../../components"
+import { createDateTimeWithCurrentTime, getTodayLocalDate } from "../../utils/DateTimeHelpers"
 
 export const Meal = () => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const [ itemCount, setItemCount ] = useState(1);
   const [ submitSuccess, setSubmitSuccess ] = useState(false);
   const [ submitError, setSubmitError ] = useState(null);
+  const [ mealDate, setMealDate ] = useState(() => {
+    return getTodayLocalDate();
+  });
   const { user } = useAuth();
 
   const handleItemCountChange = (e, operation) => {
@@ -31,6 +34,7 @@ export const Meal = () => {
     setItemCount(1);
     setSubmitSuccess(false);
     setSubmitError(null);
+    setMealDate(getTodayLocalDate());
     reset();
   }
 
@@ -67,7 +71,11 @@ export const Meal = () => {
         alcohol: data[`alcohol-${i}`] || false,
       });
     }
-    return { items, atHome: data.at_home };
+    
+    // Create datetime with the selected date and current time
+    const mealDateTime = createDateTimeWithCurrentTime(mealDate);
+    
+    return { items, atHome: data.at_home, date: mealDateTime };
   }
 
   if (submitError) {
@@ -111,6 +119,19 @@ export const Meal = () => {
         </div>
 
         <div className="flex flex-col items-start space-y-4 max-w-[320px]">
+          <div className="flex items-center space-x-2">
+            <label htmlFor="mealDate" className="text-sm font-medium leading-none">
+              Meal Date:
+            </label>
+            <input 
+              type="date" 
+              id="mealDate" 
+              value={mealDate}
+              onChange={(e) => setMealDate(e.target.value)}
+              className="px-3 py-2 border border-input bg-background rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+            />
+          </div>
+
           <div className="flex items-center space-x-2">
             <input type="checkbox" id="atHome" {...register("at_home")} className="h-4 w-4 rounded border border-primary text-primary focus:ring-2 focus:ring-ring focus:ring-offset-2" />
             <label htmlFor="atHome" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">

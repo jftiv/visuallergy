@@ -16,7 +16,11 @@ export * from "./identity/IsLoggedIn.jsx";
 // Navigation Components
 export * from "./navigation/MealsNav.jsx";
 
+// Chart Components
+export * from "./charts/AllergenChart.jsx";
+
 // Meals Components
-export * from "./view-meals/View.jsx";
+export * from "./view-meals/View"
+export * from "./view-meals/TimeRangeFilter"
 export * from "./add-meal/Meal.jsx";
 export * from "./add-meal/Item.jsx";

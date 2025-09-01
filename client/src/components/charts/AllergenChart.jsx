@@ -1,0 +1,128 @@
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+
+export const AllergenChart = ({ meals }) => {
+  const processAllergenData = () => {
+    if (!meals || meals.length === 0) return [];
+
+    // Group meals by date and count allergens
+    const allergensByDate = {};
+    
+    meals.forEach(meal => {
+      // Use the meal's date field, fallback to current date if not available
+      const mealDate = meal.date || new Date().toISOString().split('T')[0];
+      const dateKey = mealDate;
+      
+      if (!allergensByDate[dateKey]) {
+        allergensByDate[dateKey] = {
+          date: dateKey,
+          dairy: 0,
+          redMeat: 0,
+          gluten: 0,
+          caffeine: 0,
+          alcohol: 0,
+        };
+      }
+      
+      // Count allergens in each meal's items
+      meal.items.forEach(item => {
+        if (item.dairy) allergensByDate[dateKey].dairy++;
+        if (item.redMeat) allergensByDate[dateKey].redMeat++;
+        if (item.gluten) allergensByDate[dateKey].gluten++;
+        if (item.caffeine) allergensByDate[dateKey].caffeine++;
+        if (item.alcohol) allergensByDate[dateKey].alcohol++;
+      });
+    });
+    
+    // Sort by date to ensure proper chronological order
+    return Object.values(allergensByDate).sort((a, b) => new Date(a.date) - new Date(b.date));
+  };
+
+  const data = processAllergenData();
+
+  if (data.length === 0) {
+    return (
+      <div className="w-full p-4 border border-border rounded-lg bg-card mb-6">
+        <h3 className="text-lg font-semibold mb-4">Allergen Trends</h3>
+        <div className="text-muted-foreground text-center py-8">
+          No data available for chart
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full p-4 border border-border rounded-lg bg-card mb-6">
+      <h3 className="text-lg font-semibold mb-4">Allergen Consumption Trends</h3>
+      <div className="h-80">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+            <XAxis 
+              dataKey="date" 
+              stroke="hsl(var(--muted-foreground))"
+              fontSize={12}
+              tickFormatter={(value) => {
+                // Format date as MM/DD
+                const date = new Date(value);
+                return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}`;
+              }}
+            />
+            <YAxis 
+              stroke="hsl(var(--muted-foreground))"
+              fontSize={12}
+            />
+            <Tooltip 
+              contentStyle={{
+                backgroundColor: 'hsl(var(--card))',
+                border: '1px solid hsl(var(--border))',
+                borderRadius: '6px',
+                color: 'hsl(var(--card-foreground))'
+              }}
+            />
+            <Legend />
+            <Line 
+              type="monotone" 
+              dataKey="dairy" 
+              stroke="#3b82f6" 
+              strokeWidth={2} 
+              name="Dairy" 
+              dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
+            />
+            <Line 
+              type="monotone" 
+              dataKey="redMeat" 
+              stroke="#ef4444" 
+              strokeWidth={2} 
+              name="Red Meat" 
+              dot={{ fill: '#ef4444', strokeWidth: 2, r: 4 }}
+            />
+            <Line 
+              type="monotone" 
+              dataKey="gluten" 
+              stroke="#f59e0b" 
+              strokeWidth={2} 
+              name="Gluten" 
+              dot={{ fill: '#f59e0b', strokeWidth: 2, r: 4 }}
+            />
+            <Line 
+              type="monotone" 
+              dataKey="caffeine" 
+              stroke="#8b5cf6" 
+              strokeWidth={2} 
+              name="Caffeine" 
+              dot={{ fill: '#8b5cf6', strokeWidth: 2, r: 4 }}
+            />
+            <Line 
+              type="monotone" 
+              dataKey="alcohol" 
+              stroke="#10b981" 
+              strokeWidth={2} 
+              name="Alcohol" 
+              dot={{ fill: '#10b981', strokeWidth: 2, r: 4 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  );
+};
