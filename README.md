@@ -14,7 +14,7 @@ This script will spin up a mysql db in docker and use some junk creds to set up 
 ### Prerequisites
 
 - Docker installed
-- (Air)[https://github.com/air-verse/air] installed 
+- [Air](https://github.com/air-verse/air) installed 
 
 1. Run the server with the runLocal.sh script in ./scripts/
 2. Run the client with npm run dev
