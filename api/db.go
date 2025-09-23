@@ -80,7 +80,7 @@ func initDB() error {
 	}
 
 	// Create users table from SQL file
-	usersPath := "../sql/users.sql"
+	usersPath := "./sql/users.sql"
 	createUsersTableSql, err := os.ReadFile(usersPath)
 	if err != nil {
 		return fmt.Errorf("failed to read users.sql file: %v", err)
@@ -91,7 +91,7 @@ func initDB() error {
 	}
 
 	// Create meals table from SQL file
-	mealsPath := "../sql/meals.sql"
+	mealsPath := "./sql/meals.sql"
 	createMealsTableSql, err := os.ReadFile(mealsPath)
 	if err != nil {
 		return fmt.Errorf("failed to read meals.sql file: %v", err)
@@ -102,7 +102,7 @@ func initDB() error {
 	}
 
 	// Create items table
-	itemsPath := "../sql/items.sql"
+	itemsPath := "./sql/items.sql"
 	createItemsTableSql, err := os.ReadFile(itemsPath)
 	if err != nil {
 		return fmt.Errorf("failed to read items.sql file: %v", err)
@@ -113,7 +113,7 @@ func initDB() error {
 	}
 
 	// Run edits.sql to apply any edits
-	editsPath := "../sql/edits.sql"
+	editsPath := "./sql/edits.sql"
 	editsSql, err := os.ReadFile(editsPath)
 	if err != nil {
 		return fmt.Errorf("failed to read edits.sql file: %v", err)
