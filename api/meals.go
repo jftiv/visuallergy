@@ -19,6 +19,7 @@ type Item struct {
 
 type FullMeal struct {
 	ID     int    `json:"id"`
+	Date   string `json:"date"`
 	Items  []Item `json:"items"`
 	AtHome bool   `json:"atHome"`
 }
@@ -43,7 +44,7 @@ func getMeals(w http.ResponseWriter, r *http.Request) {
 	}
 
 	meals, err := queryMeals(userId, queryFilters)
-	checkAndHandleError(err, w, fmt.Sprintf("Failed to query meals: %s", err), http.StatusInternalServerError)
+	checkAndHandleError(err, w, fmt.Sprintf("Failed to query meals: %s", err), http.StatusNotFound)
 
 	fullMeals := convertToResponse(meals)
 
@@ -88,6 +89,7 @@ func convertToResponse(meals []MealItem) []FullMeal {
 		if i == 0 {
 			fullMeal := FullMeal{
 				ID:     int(meal.MealId),
+				Date:   meal.Date,
 				AtHome: meal.AtHome,
 				Items: []Item{{
 					ID:       int(meal.ItemId),
@@ -116,6 +118,7 @@ func convertToResponse(meals []MealItem) []FullMeal {
 		} else {
 			fullMeal := FullMeal{
 				ID:     int(meal.MealId),
+				Date:   meal.Date,
 				AtHome: meal.AtHome,
 				Items: []Item{{
 					ID:       int(meal.ItemId),

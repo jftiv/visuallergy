@@ -1,17 +1,27 @@
 import useSWR from 'swr';
 
-const useMeals = (username) => {
-  const fetcher = (url) => fetch(url, { headers: { 'X-Username': username }}).then((res) => res.json());
-  const { data, error, isLoading } = useSWR(
-    'http://localhost:3001/meals',
-    fetcher
-  );
+export const useMeals = () => {
+  const fetcher = (url, username) => fetch(url, { headers: { 'X-Username': username }}).then((res) => res.json());
+  
+  const getMeals = (username, queryParams = {}) => {
+    // Build URL with query parameters
+    const baseUrl = 'http://localhost:3001/meals';
+    const urlParams = new URLSearchParams(queryParams);
+    const url = urlParams.toString() ? `${baseUrl}?${urlParams.toString()}` : baseUrl;
+    
+    const { data, error, isLoading } = useSWR(
+      [url, username],
+      ([url, username]) => fetcher(url, username)
+    );
+
+    return {
+      meals: data,
+      error,
+      isLoading,
+    };
+  };
 
   return {
-    meals: data,
-    error,
-    isLoading,
+    getMeals,
   };
 }
-
-export default useMeals;

@@ -11,10 +11,12 @@ export DB_NAME="jtsql-local"
 trap 'docker stop jtsql-local && docker rm jtsql-local' EXIT
 
 # wait for the database to be ready
-until docker exec jtsql-local mysqladmin ping -h"$DB_HOST" --silent; do
+echo "Waiting for MySQL container to start..."
+until docker exec jtsql-local mysqladmin ping -h"localhost" -u"$DB_USER" -p"$DB_PASSWORD" --silent 2>/dev/null; do
   echo "Waiting for MySQL to be ready..."
   sleep 2
 done
 
-air
+echo "MySQL is ready! Starting air..."
+$(go env GOPATH)/bin/air
 # go run ../api 
