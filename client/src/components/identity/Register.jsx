@@ -9,7 +9,7 @@ export const Register = () => {
   const [ registerError, setRegisterError ] = useState(false);
 
   const onSubmitRegisterUser = (data) => {
-    fetch('http://localhost:3001/auth/register', {
+    fetch(`${process.env.API_URL}/auth/register`, {
       method: 'POST',
       body: JSON.stringify({
         'email': data['email'],
