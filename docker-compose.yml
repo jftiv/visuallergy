@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # API Service
+  api:
+    image: ghcr.io/jftiv/visuallergy-api:latest
+    container_name: visuallergy-api
+    restart: unless-stopped
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+    networks:
+      - visuallergy-network
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  # Client Service
+  client:
+    image: ghcr.io/jftiv/visuallergy-client:latest
+    container_name: visuallergy-client
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    networks:
+      - visuallergy-network
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  # Watchtower for automatic updates
+  watchtower:
+    image: containrrr/watchtower:latest
+    container_name: visuallergy-watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ~/.docker/config.json:/config.json:ro
+    environment:
+      - WATCHTOWER_POLL_INTERVAL=300  # Check every 5 minutes
+      - WATCHTOWER_CLEANUP=true       # Remove old images
+      - WATCHTOWER_INCLUDE_STOPPED=true
+      - WATCHTOWER_LABEL_ENABLE=true  # Only update containers with watchtower.enable=true
+      - WATCHTOWER_DEBUG=true
+    networks:
+      - visuallergy-network
+    command: --interval 300 --cleanup
+
+volumes: {}
+
+networks:
+  visuallergy-network:
+    driver: bridge
