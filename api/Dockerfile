@@ -23,8 +23,9 @@ RUN apk --no-cache add ca-certificates
 
 WORKDIR /root/
 
-# Copy the binary from builder stage
+# Copy the binary and sql files from builder stage
 COPY --from=builder /app/main .
+COPY --from=builder /app/sql ./sql
 
 # Expose port
 EXPOSE 3001
