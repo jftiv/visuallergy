@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { createApiUrl } from "../../lib/ApiHelpers.js";
+import { createApiUrl } from "../lib/ApiHelpers.js";
 
 export const useMeals = () => {
   const fetcher = (url, username) => fetch(url, { headers: { 'X-Username': username }}).then((res) => res.json());
