@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form"
 import { Input, Button, StyledLink, BodyCenter } from "../../components";
+import { createApiUrl } from "../../lib/ApiHelpers.js";
 import "./Identity.css";
 
 export const Register = () => {
@@ -9,7 +10,7 @@ export const Register = () => {
   const [ registerError, setRegisterError ] = useState(false);
 
   const onSubmitRegisterUser = (data) => {
-    fetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
+    fetch(createApiUrl('auth/register'), {
       method: 'POST',
       body: JSON.stringify({
         'email': data['email'],

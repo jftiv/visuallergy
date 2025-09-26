@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext.jsx";
 import { Input, Button, StyledLink, BodyCenter } from "../../components";
+import { createApiUrl } from "../../lib/ApiHelpers.js";
 import "./Identity.css";
 
 export const Login = () => {
@@ -10,7 +11,7 @@ export const Login = () => {
   const { login } = useAuth();
 
   const onSubmitLogin = async (data) => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
+    const response = await fetch(createApiUrl('auth/login'), {
       method: 'POST',
       body: JSON.stringify({
         'username': data['username'],

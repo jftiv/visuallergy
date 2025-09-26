@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form"
 import { useAuth } from "../../contexts/AuthContext"
 import { Item, MealsNav } from "../../components"
 import { createDateTimeWithCurrentTime, getTodayLocalDate } from "../../utils/DateTimeHelpers"
+import { createApiUrl } from "../../lib/ApiHelpers.js"
 
 export const Meal = () => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -40,7 +41,7 @@ export const Meal = () => {
 
   const onSubmit = (data) => {
     const request = reformatData(data);
-    fetch(`${import.meta.env.VITE_API_URL}/meals`, {
+    fetch(createApiUrl('meals'), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
