@@ -10,7 +10,7 @@ export const Login = () => {
   const { login } = useAuth();
 
   const onSubmitLogin = async (data) => {
-    const response = await fetch(`${process.env.API_URL}/auth/login`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
       method: 'POST',
       body: JSON.stringify({
         'username': data['username'],

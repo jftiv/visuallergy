@@ -5,7 +5,7 @@ export const useMeals = () => {
   
   const getMeals = (username, queryParams = {}) => {
     // Build URL with query parameters
-    const baseUrl = `${process.env.API_URL}/meals`;
+    const baseUrl = `${import.meta.env.VITE_API_URL}/meals`;
     const urlParams = new URLSearchParams(queryParams);
     const url = urlParams.toString() ? `${baseUrl}?${urlParams.toString()}` : baseUrl;
     

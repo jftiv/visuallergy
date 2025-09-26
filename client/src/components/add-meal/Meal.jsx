@@ -40,7 +40,7 @@ export const Meal = () => {
 
   const onSubmit = (data) => {
     const request = reformatData(data);
-    fetch(`${process.env.API_URL}/meals`, {
+    fetch(`${import.meta.env.VITE_API_URL}/meals`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
