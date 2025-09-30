@@ -41,9 +41,9 @@ export const AllergenChart = ({ meals }) => {
 
   if (data.length === 0) {
     return (
-      <div className="w-full p-4 border border-border rounded-lg bg-card mb-6">
-        <h3 className="text-lg font-semibold mb-4">Allergen Trends</h3>
-        <div className="text-muted-foreground text-center py-8">
+      <div className="w-full p-3 sm:p-4 border border-border rounded-lg bg-card mb-6">
+        <h3 className="text-base sm:text-lg font-semibold mb-4">Allergen Trends</h3>
+        <div className="text-muted-foreground text-center py-8 text-sm sm:text-base">
           No data available for chart
         </div>
       </div>
@@ -51,16 +51,20 @@ export const AllergenChart = ({ meals }) => {
   }
 
   return (
-    <div className="w-full p-4 border border-border rounded-lg bg-card mb-6">
-      <h3 className="text-lg font-semibold mb-4">Allergen Consumption Trends</h3>
-      <div className="h-80">
+    <div className="w-full p-3 sm:p-4 border border-border rounded-lg bg-card mb-6 overflow-hidden">
+      <h3 className="text-base sm:text-lg font-semibold mb-4">Allergen Consumption Trends</h3>
+      <div className="h-64 sm:h-80 w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+          <LineChart data={data} margin={{ top: 5, right: 15, left: 10, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
             <XAxis 
               dataKey="date" 
               stroke="hsl(var(--muted-foreground))"
-              fontSize={12}
+              fontSize={10}
+              angle={-45}
+              textAnchor="end"
+              height={60}
+              interval="preserveStartEnd"
               tickFormatter={(value) => {
                 // Format date as MM/DD
                 const date = new Date(value);
@@ -69,24 +73,28 @@ export const AllergenChart = ({ meals }) => {
             />
             <YAxis 
               stroke="hsl(var(--muted-foreground))"
-              fontSize={12}
+              fontSize={10}
+              width={30}
             />
             <Tooltip 
               contentStyle={{
                 backgroundColor: 'hsl(var(--card))',
                 border: '1px solid hsl(var(--border))',
                 borderRadius: '6px',
-                color: 'hsl(var(--card-foreground))'
+                color: 'hsl(var(--card-foreground))',
+                fontSize: '12px'
               }}
             />
-            <Legend />
+            <Legend 
+              wrapperStyle={{ fontSize: '12px' }}
+            />
             <Line 
               type="monotone" 
               dataKey="dairy" 
               stroke="#3b82f6" 
               strokeWidth={2} 
               name="Dairy" 
-              dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
+              dot={{ fill: '#3b82f6', strokeWidth: 2, r: 3 }}
             />
             <Line 
               type="monotone" 
@@ -94,7 +102,7 @@ export const AllergenChart = ({ meals }) => {
               stroke="#ef4444" 
               strokeWidth={2} 
               name="Red Meat" 
-              dot={{ fill: '#ef4444', strokeWidth: 2, r: 4 }}
+              dot={{ fill: '#ef4444', strokeWidth: 2, r: 3 }}
             />
             <Line 
               type="monotone" 
@@ -102,7 +110,7 @@ export const AllergenChart = ({ meals }) => {
               stroke="#f59e0b" 
               strokeWidth={2} 
               name="Gluten" 
-              dot={{ fill: '#f59e0b', strokeWidth: 2, r: 4 }}
+              dot={{ fill: '#f59e0b', strokeWidth: 2, r: 3 }}
             />
             <Line 
               type="monotone" 
@@ -110,7 +118,7 @@ export const AllergenChart = ({ meals }) => {
               stroke="#8b5cf6" 
               strokeWidth={2} 
               name="Caffeine" 
-              dot={{ fill: '#8b5cf6', strokeWidth: 2, r: 4 }}
+              dot={{ fill: '#8b5cf6', strokeWidth: 2, r: 3 }}
             />
             <Line 
               type="monotone" 
@@ -118,7 +126,7 @@ export const AllergenChart = ({ meals }) => {
               stroke="#10b981" 
               strokeWidth={2} 
               name="Alcohol" 
-              dot={{ fill: '#10b981', strokeWidth: 2, r: 4 }}
+              dot={{ fill: '#10b981', strokeWidth: 2, r: 3 }}
             />
           </LineChart>
         </ResponsiveContainer>

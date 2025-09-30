@@ -5,16 +5,16 @@ export const TimeRangeFilter = ({
   onCustomDateChange 
 }) => {
   return (
-    <div className="mb-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-      <div className="flex items-center gap-2">
-        <label htmlFor="timeRange" className="text-sm font-medium">
+    <div className="mb-6 flex flex-col gap-4 items-start">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full">
+        <label htmlFor="timeRange" className="text-sm font-medium whitespace-nowrap">
           Show meals from:
         </label>
         <select
           id="timeRange"
           value={timeRange}
           onChange={onTimeRangeChange}
-          className="px-3 py-2 border border-input bg-background rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+          className="px-3 py-2 border border-input bg-background rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring w-full sm:w-auto min-w-0"
         >
           <option value="90days">Last 90 days</option>
           <option value="6months">Last 6 months</option>
@@ -25,8 +25,8 @@ export const TimeRangeFilter = ({
       </div>
       
       {timeRange === 'custom' && (
-        <div className="flex items-center gap-2">
-          <label htmlFor="customDate" className="text-sm font-medium">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full">
+          <label htmlFor="customDate" className="text-sm font-medium whitespace-nowrap">
             From:
           </label>
           <input
@@ -34,7 +34,7 @@ export const TimeRangeFilter = ({
             id="customDate"
             value={customDate}
             onChange={onCustomDateChange}
-            className="px-3 py-2 border border-input bg-background rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+            className="px-3 py-2 border border-input bg-background rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring w-full sm:w-auto min-w-0"
           />
         </div>
       )}
