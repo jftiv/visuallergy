@@ -108,60 +108,62 @@ export const Meal = () => {
   }
   
   return (
-    <div className="max-w-7xl mx-auto p-4">
+    <div>
       <MealsNav />
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {Array.from({ length: itemCount }, (_, index) => (
-            <div key={index} className="max-w-[320px] w-full">
-              <Item index={index} register={register} errors={errors} />
+      <div className="max-w-7xl mx-auto p-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {Array.from({ length: itemCount }, (_, index) => (
+              <div key={index} className="w-full max-w-none">
+                <Item index={index} register={register} errors={errors} />
+              </div>
+            ))}
+          </div>
+
+          <div className="flex flex-col items-start space-y-4 w-full max-w-md">
+            <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 w-full">
+              <label htmlFor="mealDate" className="text-sm font-medium leading-none whitespace-nowrap">
+                Meal Date:
+              </label>
+              <input 
+                type="date" 
+                id="mealDate" 
+                value={mealDate}
+                onChange={(e) => setMealDate(e.target.value)}
+                className="px-3 py-2 border border-input bg-background rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring w-full sm:w-auto"
+              />
             </div>
-          ))}
-        </div>
 
-        <div className="flex flex-col items-start space-y-4 max-w-[320px]">
-          <div className="flex items-center space-x-2">
-            <label htmlFor="mealDate" className="text-sm font-medium leading-none">
-              Meal Date:
-            </label>
-            <input 
-              type="date" 
-              id="mealDate" 
-              value={mealDate}
-              onChange={(e) => setMealDate(e.target.value)}
-              className="px-3 py-2 border border-input bg-background rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-            />
-          </div>
+            <div className="flex items-center space-x-2">
+              <input type="checkbox" id="atHome" {...register("at_home")} className="h-4 w-4 rounded border border-primary text-primary focus:ring-2 focus:ring-ring focus:ring-offset-2" />
+              <label htmlFor="atHome" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                At Home
+              </label>
+            </div>
 
-          <div className="flex items-center space-x-2">
-            <input type="checkbox" id="atHome" {...register("at_home")} className="h-4 w-4 rounded border border-primary text-primary focus:ring-2 focus:ring-ring focus:ring-offset-2" />
-            <label htmlFor="atHome" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-              At Home
-            </label>
+            <div className="flex flex-wrap gap-2 w-full">
+              <button 
+                onClick={e => handleItemCountChange(e, 'add')}
+                className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors text-sm"
+              >
+                Add Item
+              </button>
+              <button 
+                onClick={e => handleItemCountChange(e, 'remove')}
+                className="px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 transition-colors text-sm"
+              >
+                Remove Item
+              </button>
+              <button 
+                type="submit"
+                className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors text-sm"
+              >
+                Submit
+              </button>
+            </div>
           </div>
-
-          <div className="flex flex-wrap gap-2">
-            <button 
-              onClick={e => handleItemCountChange(e, 'add')}
-              className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
-            >
-              Add Item
-            </button>
-            <button 
-              onClick={e => handleItemCountChange(e, 'remove')}
-              className="px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 transition-colors"
-            >
-              Remove Item
-            </button>
-            <button 
-              type="submit"
-              className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
-            >
-              Submit
-            </button>
-          </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   )
 }

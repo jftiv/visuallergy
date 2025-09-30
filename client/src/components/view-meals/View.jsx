@@ -70,8 +70,8 @@ export const ViewMeals = () => {
             onTimeRangeChange={handleTimeRangeChange}
             onCustomDateChange={handleCustomDateChange}
           />
-          <div className="text-center py-12">
-            <div className="text-muted-foreground">
+          <div className="text-center py-12 px-4">
+            <div className="text-muted-foreground text-sm sm:text-base">
               No meals found. Start by <StyledLink to="/meals/add">adding a meal!</StyledLink> or try adjusting the date range to find older meals.
             </div>
           </div>
@@ -95,41 +95,65 @@ export const ViewMeals = () => {
         <AllergenChart meals={meals} />
         
         {/* Meals Content */}
-        <div>
+        <div className="space-y-4">
           {meals?.map((meal, index) => (
-            <div key={index} className="mb-6 p-4 border border-border rounded-lg bg-card">
-              <div className="mb-3">
+            <div key={index} className="p-3 sm:p-4 border border-border rounded-lg bg-card">
+              <div className="mb-3 text-sm sm:text-base">
                 <strong>At Home:</strong> {meal.atHome ? 'Yes' : 'No'}
               </div>
               <div>
-                <strong>Items:</strong>
+                <strong className="text-sm sm:text-base">Items:</strong>
                 {meal.items.map((item, itemIndex) => (
                   <div key={itemIndex} className="mt-3 p-3 border border-border rounded bg-background">
                     <div className="mb-2">
-                      <strong>{item.name}</strong>
+                      <strong className="text-sm sm:text-base">{item.name}</strong>
                     </div>
                     {item.notes && (
-                      <div className="mb-2 text-muted-foreground">
+                      <div className="mb-2 text-muted-foreground text-sm">
                         <i>{item.notes}</i>
                       </div>
                     )}
-                    <ul className="flex justify-between items-center text-sm mt-2 p-2 bg-muted rounded">
-                      <li className={`font-medium ${item.dairy ? 'text-red-600 bg-red-50 px-2 py-1 rounded' : 'text-muted-foreground'}`}>
-                        Dairy
-                      </li>
-                      <li className={`font-medium ${item.redMeat ? 'text-red-600 bg-red-50 px-2 py-1 rounded' : 'text-muted-foreground'}`}>
-                        Red Meat
-                      </li>
-                      <li className={`font-medium ${item.gluten ? 'text-red-600 bg-red-50 px-2 py-1 rounded' : 'text-muted-foreground'}`}>
-                        Gluten
-                      </li>
-                      <li className={`font-medium ${item.caffeine ? 'text-red-600 bg-red-50 px-2 py-1 rounded' : 'text-muted-foreground'}`}>
-                        Caffeine
-                      </li>
-                      <li className={`font-medium ${item.alcohol ? 'text-red-600 bg-red-50 px-2 py-1 rounded' : 'text-muted-foreground'}`}>
-                        Alcohol
-                      </li>
-                    </ul>
+                    
+                    {/* Mobile-optimized allergen display */}
+                    <div className="mt-2">
+                      {/* Desktop view - horizontal list */}
+                      <ul className="hidden sm:flex justify-between items-center text-sm p-2 bg-muted rounded">
+                        <li className={`font-medium ${item.dairy ? 'text-red-600 bg-red-50 px-2 py-1 rounded' : 'text-muted-foreground'}`}>
+                          Dairy
+                        </li>
+                        <li className={`font-medium ${item.redMeat ? 'text-red-600 bg-red-50 px-2 py-1 rounded' : 'text-muted-foreground'}`}>
+                          Red Meat
+                        </li>
+                        <li className={`font-medium ${item.gluten ? 'text-red-600 bg-red-50 px-2 py-1 rounded' : 'text-muted-foreground'}`}>
+                          Gluten
+                        </li>
+                        <li className={`font-medium ${item.caffeine ? 'text-red-600 bg-red-50 px-2 py-1 rounded' : 'text-muted-foreground'}`}>
+                          Caffeine
+                        </li>
+                        <li className={`font-medium ${item.alcohol ? 'text-red-600 bg-red-50 px-2 py-1 rounded' : 'text-muted-foreground'}`}>
+                          Alcohol
+                        </li>
+                      </ul>
+                      
+                      {/* Mobile view - smaller, wrapped grid */}
+                      <div className="grid grid-cols-2 gap-2 sm:hidden p-2 bg-muted rounded">
+                        <div className={`text-xs font-medium text-center py-1 px-2 rounded ${item.dairy ? 'text-red-600 bg-red-50' : 'text-muted-foreground'}`}>
+                          Dairy
+                        </div>
+                        <div className={`text-xs font-medium text-center py-1 px-2 rounded ${item.redMeat ? 'text-red-600 bg-red-50' : 'text-muted-foreground'}`}>
+                          Red Meat
+                        </div>
+                        <div className={`text-xs font-medium text-center py-1 px-2 rounded ${item.gluten ? 'text-red-600 bg-red-50' : 'text-muted-foreground'}`}>
+                          Gluten
+                        </div>
+                        <div className={`text-xs font-medium text-center py-1 px-2 rounded ${item.caffeine ? 'text-red-600 bg-red-50' : 'text-muted-foreground'}`}>
+                          Caffeine
+                        </div>
+                        <div className={`text-xs font-medium text-center py-1 px-2 rounded col-span-2 ${item.alcohol ? 'text-red-600 bg-red-50' : 'text-muted-foreground'}`}>
+                          Alcohol
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
