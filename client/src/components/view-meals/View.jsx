@@ -16,6 +16,14 @@ export const ViewMeals = () => {
     const now = new Date();
     
     switch (timeRange) {
+      case '1week':
+        const oneWeekAgo = new Date(now);
+        oneWeekAgo.setDate(now.getDate() - 7);
+        return oneWeekAgo.toISOString().split('T')[0];
+      case '30days':
+        const thirtyDaysAgo = new Date(now);
+        thirtyDaysAgo.setDate(now.getDate() - 30);
+        return thirtyDaysAgo.toISOString().split('T')[0];
       case '90days':
         const ninetyDaysAgo = new Date(now);
         ninetyDaysAgo.setMonth(now.getMonth() - 3);
@@ -52,6 +60,9 @@ export const ViewMeals = () => {
   const handleCustomDateChange = (e) => {
     setCustomDate(e.target.value);
   };
+
+  const sortMealsIntoDescendingOrder = (meals) => 
+    meals.sort((a, b) => new Date(b.date || new Date()) - new Date(a.date || new Date()));
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -96,7 +107,7 @@ export const ViewMeals = () => {
         
         {/* Meals Content */}
         <div className="space-y-4">
-          {meals?.map((meal, index) => (
+          {sortMealsIntoDescendingOrder(meals)?.map((meal, index) => (
             <div key={index} className="p-3 sm:p-4 border border-border rounded-lg bg-card">
               <div className="mb-3 text-sm sm:text-base">
                 <strong>At Home:</strong> {meal.atHome ? 'Yes' : 'No'}
