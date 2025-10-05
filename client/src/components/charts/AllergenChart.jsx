@@ -1,24 +1,26 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useState } from 'react';
+import { sortMealsByDate } from '../../utils/DateTimeHelpers';
+import { format, differenceInDays, startOfWeek, endOfWeek } from 'date-fns';
 
 export const AllergenChart = ({ meals }) => {
   const [syncId] = useState('allergen-charts');
   
   const processAllergenData = () => {
-    if (!meals || meals.length === 0) return { data: [], groupingType: 'none' };
+    if (!meals || meals.length === 0) 
+      return { data: [], groupingType: 'none' };
 
-    const sortedMeals = [...meals].sort((a, b) => {
-      const dateA = new Date(a.date || new Date().toISOString().split('T')[0]);
-      const dateB = new Date(b.date || new Date().toISOString().split('T')[0]);
-      return dateA - dateB;
-    });
+    const sortedMeals = sortMealsByDate(meals, false);
 
     const uniqueDates = [...new Set(sortedMeals.map(meal => 
-      meal.date || new Date().toISOString().split('T')[0]
+      meal.date
     ))];
 
-    const dateRange = uniqueDates.length;
-    
+    const dateRange = uniqueDates.length > 1 ? differenceInDays(
+      new Date(uniqueDates[uniqueDates.length - 1]), 
+      new Date(uniqueDates[0])
+    ) : 0;
+
     // Determine grouping strategy
     let groupingType;
     if (dateRange <= 1) {
@@ -35,7 +37,7 @@ export const AllergenChart = ({ meals }) => {
       case 'meal':
         processedData = sortedMeals.map((meal, index) => {
           const mealData = {
-            date: meal.date || new Date().toISOString().split('T')[0],
+            date: meal.date,
             label: `Meal ${index + 1}`,
             dairy: 0,
             redMeat: 0,
@@ -60,8 +62,7 @@ export const AllergenChart = ({ meals }) => {
         const dailyData = {};
         
         sortedMeals.forEach(meal => {
-          const mealDate = meal.date || new Date().toISOString().split('T')[0];
-          const dateKey = mealDate;
+          const dateKey = format(meal.date, 'MM-dd');
           
           if (!dailyData[dateKey]) {
             dailyData[dateKey] = {
@@ -91,19 +92,15 @@ export const AllergenChart = ({ meals }) => {
         const weeklyData = {};
         
         sortedMeals.forEach(meal => {
-          const mealDate = new Date(meal.date || new Date().toISOString().split('T')[0]);
+          const mealDate = new Date(meal.date);
           // Get the start of the week (Sunday)
-          const weekStart = new Date(mealDate);
-          weekStart.setDate(mealDate.getDate() - mealDate.getDay());
-          const weekKey = weekStart.toISOString().split('T')[0];
+          const weekStart = startOfWeek(mealDate);
+          const weekKey = format(weekStart, 'MM-dd');
           
           if (!weeklyData[weekKey]) {
-            const weekEnd = new Date(weekStart);
-            weekEnd.setDate(weekStart.getDate() + 6);
-            
             weeklyData[weekKey] = {
               date: weekKey,
-              label: `Week of ${weekStart.getMonth() + 1}/${weekStart.getDate()}`,
+              label: `Week of ${weekKey}`,
               dairy: 0,
               redMeat: 0,
               gluten: 0,
@@ -133,6 +130,9 @@ export const AllergenChart = ({ meals }) => {
   };
 
   const { data, groupingType } = processAllergenData();
+
+  console.log("Grouping Type: ", groupingType);
+  console.log("Processed Data: ", data);
 
   const chartConfigs = [
     {
@@ -166,17 +166,6 @@ export const AllergenChart = ({ meals }) => {
       name: 'Alcohol'
     }
   ];
-
-  const formatDate = (value, label) => {
-    if (groupingType === 'meal') {
-      return label || `Meal ${value}`;
-    } else if (groupingType === 'daily') {
-      const date = new Date(value);
-      return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}`;
-    } else {
-      return label || value;
-    }
-  };
 
   const getGroupingDescription = () => {
     switch (groupingType) {
@@ -214,7 +203,7 @@ export const AllergenChart = ({ meals }) => {
                 const dataPoint = data.find(d => 
                   groupingType === 'meal' ? d.label === value : d.date === value
                 );
-                return formatDate(value, dataPoint?.label);
+                return value;
               }}
             />
             <YAxis 
@@ -237,9 +226,9 @@ export const AllergenChart = ({ meals }) => {
                 if (groupingType === 'meal') {
                   return dataPoint?.label || label;
                 } else if (groupingType === 'daily') {
-                  return `Date: ${formatDate(label, dataPoint?.label)}`;
+                  return `Date: ${label}`;
                 } else {
-                  return dataPoint?.label || `Week of ${formatDate(label)}`;
+                  return dataPoint?.label || `Week of ${label}`;
                 }
               }}
             />

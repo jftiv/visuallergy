@@ -27,3 +27,9 @@ export function getTodayLocalDate() {
   const today = new Date();
   return new Intl.DateTimeFormat('en-CA').format(today);
 }
+
+export function sortMealsByDate (meals, descending = true) {
+  return meals.sort((a, b) => descending 
+    ? new Date(b.date || new Date()) - new Date(a.date || new Date()) 
+    : new Date(a.date || new Date()) - new Date(b.date || new Date()));
+}

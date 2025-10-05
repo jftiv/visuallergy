@@ -2,6 +2,7 @@ import { useState } from "react";
 import { BodyCenter, MealsNav, StyledLink, AllergenChart, TimeRangeFilter } from "../../components";
 import { useAuth } from "../../contexts/AuthContext";
 import { useMeals } from "../../hooks/useMeals";
+import { sortMealsByDate } from "../../utils/DateTimeHelpers";
 
 export const ViewMeals = () => {
   const { user } = useAuth();
@@ -61,9 +62,6 @@ export const ViewMeals = () => {
     setCustomDate(e.target.value);
   };
 
-  const sortMealsIntoDescendingOrder = (meals) => 
-    meals.sort((a, b) => new Date(b.date || new Date()) - new Date(a.date || new Date()));
-
   if (isLoading) return <div>Loading...</div>;
 
   if (error) {
@@ -107,7 +105,7 @@ export const ViewMeals = () => {
         
         {/* Meals Content */}
         <div className="space-y-4">
-          {sortMealsIntoDescendingOrder(meals)?.map((meal, index) => (
+          {sortMealsByDate(meals)?.map((meal, index) => (
             <div key={index} className="p-3 sm:p-4 border border-border rounded-lg bg-card">
               <div className="mb-3 text-sm sm:text-base">
                 <strong>At Home:</strong> {meal.atHome ? 'Yes' : 'No'}

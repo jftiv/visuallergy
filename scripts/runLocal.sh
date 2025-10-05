@@ -1,4 +1,6 @@
 #!/bin/bash
+base_dir=$(git rev-parse --show-toplevel)
+cd ${base_dir}/api
 docker run --name jtsql-local -e MYSQL_ROOT_PASSWORD="my-super-secret-pw" -e MYSQL_DATABASE="jtsql-local" -p 3306:3306 -v ./data:/var/lib/mysql -d mysql:9.0
 
 # Update to real values in production env
@@ -18,5 +20,5 @@ until docker exec jtsql-local mysqladmin ping -h"localhost" -u"$DB_USER" -p"$DB_
 done
 
 echo "MySQL is ready! Starting air..."
-$(go env GOPATH)/bin/air
+$(go env GOPATH)/bin/air -c .air.toml
 # go run ../api 

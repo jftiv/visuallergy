@@ -68,7 +68,6 @@ func initDB() error {
 		return fmt.Errorf("database connection parameters are not set in environment variables")
 	}
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", user, password, host, port, dbName)
-	fmt.Print(dsn)
 	//TODO: Switch statements to cleaner sqlx creates
 	db, err = sqlx.Open("mysql", dsn)
 	if err != nil {
