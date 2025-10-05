@@ -23,7 +23,7 @@ export const AllergenChart = ({ meals }) => {
     let groupingType;
     if (dateRange <= 1) {
       groupingType = 'meal';
-    } else if (dateRange <= 21) {
+    } else if (dateRange <= 42) {
       groupingType = 'daily';
     } else {
       groupingType = 'weekly';
