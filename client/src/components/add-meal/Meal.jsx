@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { useAuth } from "../../contexts/AuthContext"
 import { Item, MealsNav } from "../../components"
-import { createDateTimeWithCurrentTime, getTodayLocalDate } from "../../utils/DateTimeHelpers"
+import { getTodayLocalDate, getCurrentLocalDateTime, formatForMySQL } from "../../utils/DateTimeHelpers"
 import { createApiUrl } from "../../lib/ApiHelpers.js"
 
 export const Meal = () => {
@@ -10,8 +10,8 @@ export const Meal = () => {
   const [ itemCount, setItemCount ] = useState(1);
   const [ submitSuccess, setSubmitSuccess ] = useState(false);
   const [ submitError, setSubmitError ] = useState(null);
-  const [ mealDate, setMealDate ] = useState(() => {
-    return getTodayLocalDate();
+  const [ mealDateTime, setMealDateTime ] = useState(() => {
+    return getCurrentLocalDateTime();
   });
   const { user } = useAuth();
 
@@ -35,7 +35,7 @@ export const Meal = () => {
     setItemCount(1);
     setSubmitSuccess(false);
     setSubmitError(null);
-    setMealDate(getTodayLocalDate());
+    setMealDateTime(getCurrentLocalDateTime());
     reset();
   }
 
@@ -73,10 +73,10 @@ export const Meal = () => {
       });
     }
     
-    // Create datetime with the selected date and current time
-    const mealDateTime = createDateTimeWithCurrentTime(mealDate);
+    // Format datetime for MySQL database
+    const selectedDateTime = formatForMySQL(mealDateTime);
     
-    return { items, atHome: data.at_home, date: mealDateTime };
+    return { items, atHome: data.at_home, date: selectedDateTime };
   }
 
   if (submitError) {
@@ -122,14 +122,14 @@ export const Meal = () => {
 
           <div className="flex flex-col items-start space-y-4 w-full max-w-md">
             <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 w-full">
-              <label htmlFor="mealDate" className="text-sm font-medium leading-none whitespace-nowrap">
-                Meal Date:
+              <label htmlFor="mealDateTime" className="text-sm font-medium leading-none whitespace-nowrap">
+                Meal Date & Time:
               </label>
               <input 
-                type="date" 
-                id="mealDate" 
-                value={mealDate}
-                onChange={(e) => setMealDate(e.target.value)}
+                type="datetime-local" 
+                id="mealDateTime" 
+                value={mealDateTime}
+                onChange={(e) => setMealDateTime(e.target.value)}
                 className="px-3 py-2 border border-input bg-background rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-ring w-full sm:w-auto"
               />
             </div>

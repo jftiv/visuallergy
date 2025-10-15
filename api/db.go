@@ -171,8 +171,8 @@ func insertMeal(userId int, meal FullMeal) error {
 	tx := db.MustBegin()
 
 	// Insert meal
-	insertMealQuery := "INSERT INTO meals (user_id, at_home) VALUES (:user_id, :at_home)"
-	result, err := tx.NamedExec(insertMealQuery, map[string]interface{}{"user_id": userId, "at_home": meal.AtHome})
+	insertMealQuery := "INSERT INTO meals (user_id, at_home, date) VALUES (:user_id, :at_home, :date)"
+	result, err := tx.NamedExec(insertMealQuery, map[string]interface{}{"user_id": userId, "at_home": meal.AtHome, "date": meal.Date})
 	if err != nil {
 		tx.Rollback()
 		return fmt.Errorf("failed to insert meal: %v", err)
